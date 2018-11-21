@@ -39,7 +39,7 @@ html, body
     height: 101%
     background: linear-gradient(0deg, transparentize($color-deep, 0) 0%, transparentize($color-deep, 0.1) 25%, transparentize($color-deep, 0.5) 100%)
   .center-wrapper
-    padding-top: 20vw
+    padding-top: 30vw
     padding-bottom: 5em
     .text
       color: white
@@ -57,13 +57,66 @@ html, body
         margin-top: 0.3em
         opacity: 0.5
 
+#introduction-wrapper, #article-wrapper
+  .article-text
+    max-width: 800px
+    color: white
+    h1, h2
+      font-family: $font-sans-serif
+      font-weight: 700
+      letter-spacing: $letter-spacing-mid
+      text-transform: uppercase
+    h1
+    h2
+      font-size: 0.8em
+      font-style: italic
+      margin-bottom: 0
+      margin-top: 3em
+    p
+      color: rgb(150, 150, 150)
+      line-height: 1.75em
+      font-family: $font-serif
+    blockquote
+      line-height: 1.75em
+      font-family: $font-serif
+      font-size: 1.2em
+      margin-top: 5em
+      margin-bottom: 3em
+      display: block
+      &::before
+        content: "“"
+        display: block
+        font-weight: 700
+        color: #262626
+        font-size: 5em
+        position: absolute
+        left: -0.5em
+
+#article-wrapper
+  padding-top: 3em
+
+#footer-wrapper
+  margin-top: 5em
+  padding: 5em 0
+  text-align: center
+  border-top: $border-light
+  .title
+    letter-spacing: $letter-spacing-high
+    text-transform: uppercase
+    margin-bottom: 1em
+  .line
+    font-size: 0.9em
+    color: rgb(150, 150, 150)
+    margin-top: 0.5em
+
 #navigation-wrapper
   $height: 2.5rem
   margin-top: -$height
   height: $height
   width: 100%
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05)
   .fixed-wrapper
+    z-index: 10000000
+    border-bottom: $border-light
     height: $height
     width: 100%
     position: relative
@@ -73,6 +126,9 @@ html, body
     display: flex
     justify-content: center
     align-items: center
+    &.fixed
+      position: fixed
+      background-color: transparentize($color-deep, 0.25)
     .nav-item
       cursor: pointer
       font-size: 0.8em
@@ -104,15 +160,11 @@ html, body
         top: calc(100% + 2em)
       .top-line, .bottom-line
         position: absolute
-        display: flex
-        justify-content: center
-        align-items: center
-        flex-direction: column
         left: 50%
         transform: translateX(-50%)
         .circle
-          width: 0.75em
-          height: 0.75em
+          width: 13px
+          height: 13px
           border: 1px solid white
           border-radius: 50%
         .line
@@ -120,6 +172,7 @@ html, body
           background-color: white
           height: 50vh
           margin: -1px
+          left: 7px
       max-width: 450px
       .title, .question
         letter-spacing: $letter-spacing-mid
@@ -128,5 +181,27 @@ html, body
         text-align: center
         text-transform: uppercase
         font-weight: 700
-      .text, .question, .options
+      .text, .options
         margin-top: 1em
+      .question
+        margin-top: 2em
+      .options
+        .option
+          background-color: $color-deep-light
+          border-radius: $border-radius
+          letter-spacing: $letter-spacing-mid
+          color: white
+          font-size: 0.8em
+          text-align: center
+          text-transform: uppercase
+          padding: 0.5em 1em
+          cursor: pointer
+          margin-top: 0.5em
+          border: 1px solid transparent
+          transition: 0.2s all
+          &:hover
+            border-color: rgba(255, 255, 255, 0.2)
+            background-color: transparent
+          &.selected
+            border-color: white
+            background-color: transparent

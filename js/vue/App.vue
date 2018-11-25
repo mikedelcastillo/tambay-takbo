@@ -5,17 +5,25 @@
       .center-wrapper
         .text
           .title Tambay, Takbo
-          .description Life in unforgiving streets lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+          .description Duterte sees the #[i tambay] as a threat and views the streets as potential for danger. For a street child, the danger is not found on the streets, but in the institutions that claim to protect them.
           .credits Written by Soleil Luna and Loreben Tuquero
     #navigation-wrapper(ref=`nav-wrapper`)
       .fixed-wrapper(:class=`{fixed:navigation.fixed}`)
         .nav-item(v-for=`nav, i in navigation.items` @click=`navigateTo(nav)` :class=`{selected:nav.selected}`) {{nav.label}}
     #introduction-wrapper
       .article-text.center-wrapper
-        h2 Introduction
-        p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Urna condimentum mattis pellentesque id nibh tortor id aliquet lectus. Neque volutpat ac tincidunt vitae semper quis lectus. Mi in nulla posuere sollicitudin aliquam ultrices sagittis. Aenean euismod elementum nisi quis eleifend quam adipiscing vitae proin. Tellus pellentesque eu tincidunt tortor aliquam nulla facilisi cras fermentum. Tempor commodo ullamcorper a lacus vestibulum sed. Malesuada nunc vel risus commodo viverra maecenas. Dapibus ultrices in iaculis nunc sed. Dictum sit amet justo donec enim diam vulputate ut. Aliquam sem fringilla ut morbi tincidunt augue. Phasellus vestibulum lorem sed risus ultricies tristique. Praesent tristique magna sit amet. Cursus metus aliquam eleifend mi in nulla posuere sollicitudin aliquam. Amet risus nullam eget felis eget nunc lobortis. Tortor vitae purus faucibus ornare suspendisse sed nisi. Maecenas pharetra convallis posuere morbi. Tempus quam pellentesque nec nam aliquam sem et tortor consequat. Elementum integer enim neque volutpat ac tincidunt vitae.
+        p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Urna condimentum mattis pellentesque id nibh tortor id aliquet lectus. Neque volutpat ac tincidunt vitae semper quis lectus. Mi in nulla posuere sollicitudin aliquam ultrices sagittis. Aenean euismod elementum nisi quis eleifend quam adipiscing vitae proin. Tellus pellentesque eu tincidunt tortor aliquam nulla facilisi cras fermentum. Tempor commodo ullamcorper a lacus vestibulum sed. Malesuada nunc vel risus commodo viverra maecenas.
     #simulation-wrapper(ref=`simulation`)
-      .scene(v-for=`scene, index in simulation.storyline` :ref=`'scene-' + scene.id`)
+      transition(name="fade")
+        .scene-background(:key=`sbg.id` v-if=`sbg.media_type == 'image'` :style=`{backgroundImage:'url(' + sbg.media_url + ')'}`)
+          .gradient
+        .scene-background(:key=`sbg.id` v-if=`sbg.media_type == 'video'`)
+          video(loop="" muted="" autoplay="")
+            source(:src=`sbg.media_url` type="video/mp4")
+          .gradient
+      .scene(
+        v-for=`(scene, index) in simulation.storyline`
+        :ref=`'scene-' + scene.id`)
         .center-wrapper
           transition(name="fade")
             .top-line(v-if=`index != 0`)
@@ -26,14 +34,17 @@
               .circle
               .line
           .title {{scene.title}}
-          .text {{scene.text}}
+          .text(v-for=`t in scene.text`) {{t}}
           .question {{scene.question}}
           .options
 
             .option(
               v-for=`option in scene.options`
               @click=`selectOption(scene, option)`
-              :class=`{selected: simulation.storyline[index + 1] && option.id == simulation.storyline[index + 1].id}`) {{option.label}}
+              :class=`{selected: simulation.storyline[index + 1] && option.id == simulation.storyline[index + 1].id}`
+              @mouseover=`optionMouseOver(option)`
+              @mouseout=`optionMouseOut()`
+              v-html=`option.label`)
     #article-wrapper(ref=`article`)
       .article-text.center-wrapper
         h1 Article Title
@@ -49,7 +60,7 @@
         .title Tambay, Takbo
         .line Written by Soleil Luna and Loreben Tuquero
         .line Thanks to Organization One, Organization Two
-        .line Designed and developed by Mike del Castillo
+        .line Designed and developed by #[a(href="https://mikedc.io") Mike del Castillo]
 </template>
 
 <script>
@@ -64,7 +75,7 @@ export default {
         items: [
           {
             ref: 'intro',
-            label: 'Introduction',
+            label: 'Intro',
             selected: false,
           },
           {
@@ -81,13 +92,21 @@ export default {
       },
       simulation: {
         scenes: [],
-        currentScene: null,
+        background: null,
+        hover: null,
         storyline: [],
       },
     }
   },
   computed: {
-
+    sbg(){
+      if(this.simulation.hover) return this.simulation.hover;
+      if(this.simulation.background) return this.simulation.background;
+      return {
+        id: 0,
+        media_type: 'none',
+      };
+    },
   },
   methods: {
     scrollHandler(){
@@ -123,6 +142,17 @@ export default {
         }
       }
 
+      let simY = utils.getOffsetTop(this.$refs.simulation);
+      let simHeight = window.innerHeight * this.simulation.storyline.length;
+      let simScroll = scroll + window.innerHeight/2;
+
+      if(simScroll >= simY && simScroll <= simY + simHeight){
+        let index = Math.min(this.simulation.storyline.length - 1, Math.floor((simScroll - simY) / window.innerHeight));
+        this.simulation.background = this.simulation.storyline[index];
+      } else{
+        this.simulation.background = null;
+      }
+
     },
 
     navigateTo(nav){
@@ -135,8 +165,17 @@ export default {
 
     resetStoryline(){
       this.simulation.storyline = [];
-      this.simulation.currentScene = this.findScene("start");
-      this.simulation.storyline.push(this.simulation.currentScene);
+      this.simulation.storyline.push(this.findScene('start'));
+    },
+
+    optionMouseOver(option){
+      this.simulation.hover = this.findScene(option.id);
+      console.log(this.simulation.hover);
+    },
+
+    optionMouseOut(){
+      this.simulation.hover = null;
+      console.log(this.simulation.hover);
     },
 
     loadScenes(){
@@ -187,6 +226,9 @@ export default {
     window.addEventListener('wheel', this.scrollHandler.bind(this), false);
     window.addEventListener('keypress', this.scrollHandler.bind(this), false);
     window.addEventListener('resize', this.scrollHandler.bind(this), false);
+    window.addEventListener('touchstart', this.scrollHandler.bind(this), false);
+    window.addEventListener('touchend', this.scrollHandler.bind(this), false);
+    window.addEventListener('touchmove', this.scrollHandler.bind(this), false);
   },
 }
 </script>

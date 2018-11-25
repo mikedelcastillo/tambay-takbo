@@ -13,6 +13,10 @@ html, body
   position: relative
   box-sizing: border-box
 
+a, a:visited
+  color: inherit
+  text-decoration: underline
+
 .fade-enter-active, .fade-leave-active
   transition: opacity .5s
 
@@ -24,7 +28,7 @@ html, body
   margin: auto
 
 #header-wrapper
-  background-image: url(../img/placeholder.jpg)
+  background-image: url(../img/header.jpeg)
   background-position: center
   background-repeat: no-repeat
   background-size: cover
@@ -51,11 +55,22 @@ html, body
         letter-spacing: $letter-spacing-high
       .description
         margin-top: 0.3em
-        max-width: 350px
+        max-width: 500px
         opacity: 0.5
       .credits
-        margin-top: 0.3em
+        margin-top: 0.5em
         opacity: 0.5
+      +range(0, $break-mobile)
+        .title
+          font-size: 1.2em
+          font-weight: 700
+
+#introduction-wrapper
+  padding-top: 2em
+  padding-bottom: 2em
+
+#article-wrapper
+  padding-top: 3em
 
 #introduction-wrapper, #article-wrapper
   .article-text
@@ -68,18 +83,18 @@ html, body
       text-transform: uppercase
     h1
     h2
-      font-size: 0.8em
+      font-size: 1em
       font-style: italic
       margin-bottom: 0
-      margin-top: 3em
+      margin-top: 2em
     p
       color: rgb(150, 150, 150)
-      line-height: 1.75em
+      line-height: 1.6em
       font-family: $font-serif
     blockquote
       line-height: 1.75em
       font-family: $font-serif
-      font-size: 1.2em
+      font-size: 1.1em
       margin-top: 5em
       margin-bottom: 3em
       display: block
@@ -92,8 +107,6 @@ html, body
         position: absolute
         left: -0.5em
 
-#article-wrapper
-  padding-top: 3em
 
 #footer-wrapper
   margin-top: 5em
@@ -145,7 +158,39 @@ html, body
         border-bottom: 2px solid white
 
 #simulation-wrapper
+  .scene-background
+    position: fixed
+    z-index: 0
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    width: 100%
+    height: 100%
+    background-position: center
+    background-repeat: no-repeat
+    background-size: cover
+    // filter: blur(5px)
+    .gradient
+        background: linear-gradient(to top, $color-deep 0%, transparentize($color-deep, 0.1) 50%)
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        bottom: 0
+        width: 100%
+        height: 100%
+    video
+      overflow: hidden
+      width: 100vw
+      height: 100vh
+      background-color: #000
+      object-fit: cover
+      background-size: cover
+      background-repeat: no-repeat
+      background-position: 50%
   .scene
+    z-index: 100
     overflow: hidden
     width: 100vw
     min-height: 100vh
@@ -189,11 +234,11 @@ html, body
         .option
           background-color: $color-deep-light
           border-radius: $border-radius
-          letter-spacing: $letter-spacing-mid
+          // letter-spacing: $letter-spacing-mid
           color: white
-          font-size: 0.8em
+          // font-size: 0.8em
           text-align: center
-          text-transform: uppercase
+          // text-transform: uppercase
           padding: 0.5em 1em
           cursor: pointer
           margin-top: 0.5em

@@ -1,4 +1,7 @@
 <template lang="pug">
+  mixin share
+    .share
+      a.item(v-for=`link in shares` :href=`link.url` :class=`link.className` target=`_blank`)
   #global-wrapper(ref=`intro`)
     #header-wrapper
       .gradient
@@ -7,6 +10,7 @@
           .title Tambay, Takbo
           .description Duterte sees the #[i tambay] as a threat and views the streets as potential for danger. For a street child, the danger is not found on the streets, but in the institutions that claim to protect them.
           .credits Written by Soleil Luna and Loreben Tuquero
+          +share
     #navigation-wrapper(ref=`nav-wrapper`)
       .fixed-wrapper(:class=`{fixed:navigation.fixed}`)
         .nav-item(v-for=`nav, i in navigation.items` @click=`navigateTo(nav)` :class=`{selected:nav.selected}`) {{nav.label}}
@@ -67,9 +71,10 @@
 
     #footer-wrapper
       .center-wrapper
+        +share
         .title Tambay, Takbo
         .line Written by Soleil Luna and Loreben Tuquero
-        .line Thanks to Organization One, Organization Two
+        .line Special thanks to Action for the Care and Development of the Poor in the Philippines
         .line Designed and developed by #[a(href="https://mikedc.io") Mike del Castillo]
 </template>
 
@@ -80,6 +85,16 @@ console.log(utils);
 export default {
   data(){
     return {
+      shares: [
+        {
+          className: {facebook:1},
+          url: "https://www.facebook.com/sharer/sharer.php?u=tambaytakbo.com",
+        },
+        {
+          className: {twitter:1},
+          url: "https://twitter.com/home?status=VIEW%3A%20Tambay,%20Tabko%20(tambaytakbo.com)",
+        },
+      ],
       navigation: {
         fixed: false,
         items: [

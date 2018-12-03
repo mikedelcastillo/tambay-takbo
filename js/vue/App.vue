@@ -100,7 +100,7 @@ export default {
         },
         {
           className: {twitter:1},
-          url: "https://twitter.com/home?status=VIEW%3A%20Tambay,%20Tabko%20(tambaytakbo.com)",
+          url: "https://twitter.com/home?status=VIEW%3A%20Tambay,%20Takbo%20(tambaytakbo.com)",
         },
       ],
       navigation: {

@@ -85,6 +85,25 @@ a, a:visited
       .credits
         margin-top: 0.5em
         opacity: 0.5
+        a
+          text-decoration: none
+          border-bottom: 2px solid white
+          display: inline-block
+          margin-left: 1.5em
+          margin-right: 0.25em
+          &:before
+            $size: 1.5em
+            width: $size
+            height: $size
+            content: ' '
+            display: block
+            position: absolute
+            background-image: url(../img/email-white.png)
+            background-position: center
+            background-repeat: no-repeat
+            background-size: contain
+            top: 0
+            left: -$size
       +range(0, $break-mobile)
         .title
           font-size: 1.2em

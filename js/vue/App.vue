@@ -11,7 +11,7 @@
         .text
           .title Tambay, Takbo
           .description Duterte sees the #[i tambay] as a threat and views the streets as potential for danger. For a street child, the danger is not found on the streets, but in the institutions that claim to protect them.
-          .credits Written by Soleil Luna and Loreben Tuquero
+          .credits Written by #[a(:href=`'mailto:' + emails[0]`) Soleil Luna] and #[a(:href=`'mailto:' + emails[1]`) Loreben Tuquero]
           +share
     #navigation-wrapper(ref=`nav-wrapper`)
       .fixed-wrapper(:class=`{fixed:navigation.fixed}`)
@@ -74,6 +74,7 @@
         +share
         .title Tambay, Takbo
         .line Written by Soleil Luna and Loreben Tuquero
+        .line Emails: #[a.email(:href=`'mailto:' + emails[0]` v-html='emails[0]')], #[a.email(:href=`'mailto:' + emails[1]` v-html='emails[1]')]
         .line Special thanks to Action for the Care and Development of the Poor in the Philippines
         .line Designed and developed by #[a(href="https://mikedc.io") Mike del Castillo]
 </template>
@@ -85,6 +86,7 @@ console.log(utils);
 export default {
   data(){
     return {
+      emails: ['annasoleilluna@gmail.com', 'lorebenlltuquero@gmail.com'],
       headerBackground: {
         index: 0,
         images: [
